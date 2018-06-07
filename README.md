@@ -49,7 +49,7 @@ Loaded Data
 By default, the app on boot will create two users and a set of places and routes. Check the folder src/resources/data
 to review the data. The following image represents the graph generated:
 
-![picture](http://tinypic.com/r/35l81ky/9)
+![picture](http://i67.tinypic.com/35l81ky.jpg)
 
 Api
 ----------
