@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "username": "hfgbarrigas@gmail.com",
+      "password": "password",
+      "firstName": "Hugo",
+      "lastName": "Barrigas",
+      "authorities": []
+    },
+    {
+      "username": "admin@gmail.com",
+      "password": "password",
+      "firstName": "Admin",
+      "lastName": "Admin",
+      "authorities": [
+        {
+          "name": "ADMIN"
+        }
+      ]
+    }
+  ]
+}

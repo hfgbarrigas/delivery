@@ -1,0 +1,94 @@
+{
+  "places": [
+    {
+      "name": "A",
+      "routes": [
+        {
+          "start": {
+            "name": "A"
+          },
+          "destination": {
+            "name": "B"
+          },
+          "time": 100,
+          "cost": 100
+        },
+        {
+          "start": {
+            "name": "A"
+          },
+          "destination": {
+            "name": "C"
+          },
+          "time": 10,
+          "cost": 10
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "routes": [
+        {
+          "start": {
+            "name": "B"
+          },
+          "destination": {
+            "name": "A"
+          },
+          "time": 300,
+          "cost": 30
+        },
+        {
+          "start": {
+            "name": "B"
+          },
+          "destination": {
+            "name": "D"
+          },
+          "time": 45,
+          "cost": 12
+        }
+      ]
+    },
+    {
+      "name": "C",
+      "routes": [
+        {
+          "start": {
+            "name": "C"
+          },
+          "destination": {
+            "name": "D"
+          },
+          "time": 60,
+          "cost": 5
+        },
+        {
+          "start": {
+            "name": "C"
+          },
+          "destination": {
+            "name": "B"
+          },
+          "time": 75,
+          "cost": 6
+        }
+      ]
+    },
+    {
+      "name": "D",
+      "routes": [
+        {
+          "start": {
+            "name": "D"
+          },
+          "destination": {
+            "name": "A"
+          },
+          "time": 500,
+          "cost": 150
+        }
+      ]
+    }
+  ]
+}

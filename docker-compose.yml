@@ -1,0 +1,12 @@
+version: '3'
+services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  neo4j:
+    container_name: neo4j
+    image: neo4j:latest
+    ports:
+     - "7687:7687"

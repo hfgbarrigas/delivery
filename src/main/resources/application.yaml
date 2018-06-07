@@ -1,0 +1,57 @@
+
+#actuator
+management:
+  endpoints:
+    web:
+      base-path: /management
+  health:
+    neo4j:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+
+#redis
+spring:
+  redis:
+    host: localhost
+    port: 6379
+#basic pool configuration for redis - there are a bunch more properties for lettuce, custom bean configuration is needed
+    lettuce:
+      pool:
+        max-active: 16
+        max-idle: 8
+        min-idle: 1
+        max-wait: 200
+  session:
+    store-type: redis
+  data:
+    neo4j:
+      embedded:
+        enabled: false
+      open-in-view: true
+
+#session configuration
+server:
+  servlet:
+    session:
+      timeout: 24d
+      tracking-modes: cookie
+      persistent: true
+#cookie config
+      cookie:
+        name: x-delivery-auth
+        http-only: false
+        domain: localhost
+        max-age: 24d
+        path: /
+        secure: false
+        comment: Delivering
+
+#neo4j
+neo4j:
+  username: admin
+  password: password
+  connectionLivenessCheckTimeout: 100
+  uri: bolt://localhost
+
