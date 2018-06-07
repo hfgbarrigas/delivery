@@ -6,15 +6,23 @@ This a simple app that exposes a REST interface, leveraging HATEOAS, to deal wit
 Under hood the following techs are used:
 
 *Framework*
+
 [Spring Boot](http://projects.spring.io/spring-boot/)
+
 [Spring Security](https://docs.spring.io/spring-security/site/docs/5.0.5.RELEASE/reference/htmlsingle/)
+
 [Spring Data](https://spring.io/projects/spring-data)
+
 [Spring HATEOAS](https://docs.spring.io/spring-hateoas/docs/0.24.0.RELEASE/reference/html/)
+
 [Spring Neo4j](https://docs.spring.io/spring-data/neo4j/docs/5.0.7.RELEASE/reference/html/)
+
 [Spring Session](https://docs.spring.io/spring-session/docs/2.0.4.BUILD-SNAPSHOT/reference/html5/)
 
 *Databases*
+
 [Redis](https://redis.io/documentation)
+
 [Neo4j](https://neo4j.com/developer/get-started/)
 
 Build
@@ -99,4 +107,8 @@ Create a place example:
     
     curl -X POST -H 'Content-Type: application/json' -d '{"name":"DUMMY"}' 'localhost:8080/places?depth=1' --cookie 'x-delivery-auth=SESSION' -H 'X-CSRF-TOKEN: TOKEN'
 
-     
+TODOS
+----------
+* Add more tests
+
+* Finish read me
