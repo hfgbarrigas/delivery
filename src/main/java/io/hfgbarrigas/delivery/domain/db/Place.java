@@ -21,7 +21,7 @@ public class Place {
     private Long id;
 
     @NotNull
-    @Index(unique = true, primary = true)
+    @Index(unique = true)
     private String name;
 
     @Relationship(type = "Route")

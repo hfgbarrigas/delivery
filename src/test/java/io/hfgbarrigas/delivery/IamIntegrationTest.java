@@ -392,21 +392,18 @@ public class IamIntegrationTest extends BaseTest {
     }
 
     private void createAuthority(String authority) throws Exception {
-        //create the authority
-        mockMvc.perform(
-                asyncDispatch(
-                        mockMvc.perform(post("/authorities")
+        mockMvc.perform(post("/authorities")
                                 .with(user("admin")
                                         .password("")
                                         .authorities(new SimpleGrantedAuthority("ADMIN")))
                                 .with(csrf().asHeader())
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsBytes(Collections.singletonList(authority))))
-                                .andExpect(status().isOk())
-                                .andExpect(request().asyncStarted())
-                                .andReturn()))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/authorities"));
+                                .content(objectMapper.writeValueAsBytes(io.hfgbarrigas.delivery.domain.db.Authority
+                                        .builder()
+                                        .name(authority)
+                                        .build())))
+                                .andExpect(status().isCreated())
+                                .andExpect(header().exists("Location"));
     }
 }

@@ -39,8 +39,6 @@ public class PlacesIntegrationTest extends BaseTest {
 
     @Test
     public void shouldCreatePlace() throws Exception {
-        //NOTE: Due to spring limitations, it is only possible to create places without any routes ahead (unless those routes contain places that already exist).
-        //new routes with new places are not supported.
         final Place place = Place
                 .builder()
                 .name("DUMMY")

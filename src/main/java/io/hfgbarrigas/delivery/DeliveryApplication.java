@@ -2,6 +2,7 @@ package io.hfgbarrigas.delivery;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import io.hfgbarrigas.delivery.domain.api.Authority;
 import io.hfgbarrigas.delivery.domain.api.Place;
 import io.hfgbarrigas.delivery.domain.api.User;
@@ -109,20 +110,32 @@ public class DeliveryApplication {
                         .map(Authority::getName)
                         .collect(toList())));
 
-                //add places and routes
-                 placeRepository.save(places.stream()
+                //add places
+                Map<String, io.hfgbarrigas.delivery.domain.db.Place> createdPlaces = Lists.newArrayList(placeRepository.save(places.stream()
                         .map(p -> io.hfgbarrigas.delivery.domain.db.Place.builder()
                                 .name(p.getName())
-                                .routes(p.getRoutes().stream()
-                                        .map(r -> Route.builder()
-                                                .cost(r.getCost())
-                                                .time(r.getTime())
-                                                .destination(io.hfgbarrigas.delivery.domain.db.Place.builder().name(r.getDestination().getName()).build())
-                                                .start(io.hfgbarrigas.delivery.domain.db.Place.builder().name(r.getStart().getName()).build())
-                                                .build())
-                                        .collect(toSet()))
                                 .build())
-                        .collect(toList()), 1);
+                        .collect(toList()), 0))
+                        .stream()
+                        .collect(toMap(io.hfgbarrigas.delivery.domain.db.Place::getName, Function.identity()));
+
+                //add routes
+                places.forEach(p -> routeRepository.save(p.getRoutes().stream()
+                        .map(r -> Route.builder()
+                                .cost(r.getCost())
+                                .time(r.getTime())
+                                .destination(io.hfgbarrigas.delivery.domain.db.Place
+                                        .builder()
+                                        .id(createdPlaces.get(r.getDestination().getName()).getId())
+                                        .name(r.getDestination().getName())
+                                        .build())
+                                .start(io.hfgbarrigas.delivery.domain.db.Place
+                                        .builder()
+                                        .id(createdPlaces.get(r.getStart().getName()).getId())
+                                        .name(r.getStart().getName())
+                                        .build())
+                                .build())
+                        .collect(toSet()), 0));
 
             } finally {
                 SecurityContextHolder.clearContext();

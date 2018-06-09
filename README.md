@@ -62,40 +62,45 @@ to review the data. The following image represents the graph generated:
 Api
 ----------
 
+Leverages HATEOAS to allow self browsing.
+
 - Managing Authorities, Places and Routes are privileged operations reserved only for admins. 
 
 - Creating users is the only operation that does not require authentication and csrf token, all others do.
 
 The api consists of five entity domains: *Users*, *Authorities*, *Places*, *Routes* and *Paths*.
 
-Create user example:
-
-    curl -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"username": "hfgbarrigas@gmail.com","password": "batatas", "firstName": "", "lastName": "", "authorities": []}' localhost:8080/users -v
-
-Login example:
-
-    curl -X POST -d username='admin@gmail.com' -d password='password' localhost:8080/login -v
-    
-We will need *x-delivery-auth* cookie and *X-CSRF-TOKEN* for the following requests.
-
-The next request will guide you through the api:
-    
-    curl localhost:8080 --cookie 'x-delivery-auth=SESSION_HERE' -H 'X-CSRF-TOKEN: TOKEN_HERE'
-    
-    
     curl localhost:8080/users --cookie 'x-delivery-auth=SESSION_HERE' -H 'X-CSRF-TOKEN: TOKEN_HERE'
     curl localhost:8080/places --cookie 'x-delivery-auth=SESSION_HERE' -H 'X-CSRF-TOKEN: TOKEN_HERE'
     curl localhost:8080/routes --cookie 'x-delivery-auth=SESSION_HERE' -H 'X-CSRF-TOKEN: TOKEN_HERE'
     curl localhost:8080/authorities --cookie 'x-delivery-auth=SESSION_HERE' -H 'X-CSRF-TOKEN: TOKEN_HERE'
     
-Authorities browsing is privileged.
+*Examples*
+
+    - Create user:
+    curl -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"username": "hfgbarrigas@gmail.com","password": "batatas", "firstName": "", "lastName": "", "authorities": []}' localhost:8080/users -v
+
+    - Login example:
+    curl -X POST -d username='admin@gmail.com' -d password='password' localhost:8080/login -v
+
+    - Create authority:
+    curl -X POST -H 'Content-Type: application/json' -d '{"name": "TEST"}' localhost:8080/authorities --cookie 'x-delivery-auth=SESSION' -H 'X-CSRF-TOKEN: TOKEN'
+    
+    - Associate authorities to user:
+    curl -X POST -H 'Content-Type: application/json' -d '["TEST"]' localhost:8080/users/72/authorities --cookie 'x-delivery-auth=SESSION' -H 'X-CSRF-TOKEN: TOKEN' -v    
+
+    - Create a place: Places can only be created without routes because the start of a route needs to be the url entity of it self.
+    curl -X POST -H 'Content-Type: application/json' -d '{"name":"DUMMY"}' 'localhost:8080/places?depth=1' --cookie 'x-delivery-auth=SESSION' -H 'X-CSRF-TOKEN: TOKEN'
+        
+    - Create route:
+    curl -X POST -H 'Content-Type: application/json' -d '{"start":"http://localhost:8080/places/56","destination": "http://localhost:8080/places/60","time":"100","cost":"100"}' 'localhost:8080/routes' --cookie 'x-delivery-auth=SESSION' -H 'X-CSRF-TOKEN: TOKEN' -v
+
 Finally we have paths, only *start* and *end* are mandatory fields:
 
     curl 'localhost:8080/paths?start=A&end=B' --cookie 'x-delivery-auth=SESSION_HERE' -H 'X-CSRF-TOKEN: TOKEN_HERE'
     curl 'localhost:8080/paths?start=A&end=B&time=X&cost=Y&algorithm=K' --cookie 'x-delivery-auth=SESSION_HERE' -H 'X-CSRF-TOKEN: TOKEN_HERE'
     
-*time* and *cost* attributes are upper bonds for optimals paths.
-Also, we have three different algorithms available:
+*time* and *cost* attributes are limits for path traversal. Also, we have three different algorithms available:
 
     ALL - Will yeild every path available from START to END
     ALL_SHORTEST - Will yeild all shortest paths available from START to END. Shortest = less number of nodes
@@ -103,12 +108,7 @@ Also, we have three different algorithms available:
     
 All paths are sorted by time (todo: make this configurable via query parameter).
 
-Create a place example:
-    
-    curl -X POST -H 'Content-Type: application/json' -d '{"name":"DUMMY"}' 'localhost:8080/places?depth=1' --cookie 'x-delivery-auth=SESSION' -H 'X-CSRF-TOKEN: TOKEN'
 
 TODOS
 ----------
 * Add more tests
-
-* Finish read me

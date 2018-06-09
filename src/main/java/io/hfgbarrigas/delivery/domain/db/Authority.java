@@ -20,7 +20,7 @@ public class Authority {
     private Long id;
 
     @NotNull
-    @Index(unique = true, primary = true)
+    @Index(unique = true)
     private String name;
 
     @Relationship(type = "HAS", direction = Relationship.UNDIRECTED)
