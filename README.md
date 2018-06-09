@@ -108,6 +108,11 @@ Finally we have paths, only *start* and *end* are mandatory fields:
     
 All paths are sorted by time (todo: make this configurable via query parameter).
 
+Deploy
+=======
+
+    docker build .
+    docker run <image-id> -p 8080:8080
 
 TODOS
 ----------
